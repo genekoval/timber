@@ -30,7 +30,7 @@
 #define DEBUG() \
     LOG(logger::level::DEBUG)
 
-namespace logger {
+namespace nova::logger {
     constexpr std::string_view DEFAULT_TIME_FORMAT = "%Y/%m/%d %T %Z";
     constexpr nova::ext::chrono::time_type DEFAULT_TIME_TYPE =
         nova::ext::chrono::time_type::local;

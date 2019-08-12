@@ -1,13 +1,13 @@
-#include <logger.h>
+#include <nova/logger.h>
 
 #include <nova/color.h>
 
 #include <iostream>
 #include <sstream>
 
-using logger::level;
-using logger::log;
-using logger::write;
+using nova::logger::level;
+using nova::logger::log;
+using nova::logger::write;
 using nova::ext::chrono::time_type;
 using nova::ext::chrono::timestamp;
 using std::cerr;
@@ -20,7 +20,7 @@ using std::stringstream;
 string log::timestamp_format = string(DEFAULT_TIME_FORMAT);
 time_type log::timestamp_type = DEFAULT_TIME_TYPE;
 
-ostream& logger::operator<<(ostream& os, const level& lvl) {
+ostream& nova::logger::operator<<(ostream& os, const level& lvl) {
     switch (lvl) {
         case level::OFF  : os << "";      break;
         case level::ERROR: os << "ERROR"; break;
@@ -62,19 +62,19 @@ stringstream& log::stream() { return message_stream; }
 
 timestamp log::time() const { return ts; }
 
-write& logger::log_writer() {
+write& nova::logger::log_writer() {
     static write instance = console_logger;
     return instance;
 }
 
-level& logger::reporting_level() {
+level& nova::logger::reporting_level() {
     static level instance(level::INFO);
     return instance;
 }
 
-void logger::color_logger(const log& lg) {
-    using termcolor::color;
-    using termcolor::format;
+void nova::logger::color_logger(const log& lg) {
+    using nova::termcolor::color;
+    using nova::termcolor::format;
 
     color clr;
 
@@ -91,17 +91,17 @@ void logger::color_logger(const log& lg) {
         << lg.time() << " "
 
         // Print level.
-        << termcolor::set(format::bold, clr) << lg.lvl()
-        << termcolor::reset()
+        << nova::termcolor::set(format::bold, clr) << lg.lvl()
+        << nova::termcolor::reset()
 
         // Print logging location information.
         << " ["
-        << termcolor::set(color::green) << lg.file()
-        << termcolor::reset() << ":"
-        << termcolor::set(color::green) << lg.function()
-        << termcolor::reset() << ":"
-        << termcolor::set(color::green) << lg.line()
-        << termcolor::reset() << "] "
+        << nova::termcolor::set(color::green) << lg.file()
+        << nova::termcolor::reset() << ":"
+        << nova::termcolor::set(color::green) << lg.function()
+        << nova::termcolor::reset() << ":"
+        << nova::termcolor::set(color::green) << lg.line()
+        << nova::termcolor::reset() << "] "
 
         // Print message.
         << lg.message()
@@ -109,7 +109,7 @@ void logger::color_logger(const log& lg) {
         << endl;
 }
 
-void logger::console_logger(const log& lg) {
+void nova::logger::console_logger(const log& lg) {
     cerr
         // Print bullet point.
         << "- "
