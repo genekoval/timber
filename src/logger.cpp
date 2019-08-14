@@ -73,8 +73,7 @@ level& nova::logger::reporting_level() {
 }
 
 void nova::logger::color_logger(const log& lg) {
-    using nova::termcolor::color;
-    using nova::termcolor::format;
+    using namespace nova::termcolor;
 
     color clr;
 
@@ -91,17 +90,17 @@ void nova::logger::color_logger(const log& lg) {
         << lg.time() << " "
 
         // Print level.
-        << nova::termcolor::set(format::bold, clr) << lg.lvl()
-        << nova::termcolor::reset()
+        << set(format::bold, clr) << lg.lvl()
+        << reset()
 
         // Print logging location information.
         << " ["
-        << nova::termcolor::set(color::green) << lg.file()
-        << nova::termcolor::reset() << ":"
-        << nova::termcolor::set(color::green) << lg.function()
-        << nova::termcolor::reset() << ":"
-        << nova::termcolor::set(color::green) << lg.line()
-        << nova::termcolor::reset() << "] "
+        << set(color::green) << lg.file()
+        << reset() << ":"
+        << set(color::green) << lg.function()
+        << reset() << ":"
+        << set(color::green) << lg.line()
+        << reset() << "] "
 
         // Print message.
         << lg.message()

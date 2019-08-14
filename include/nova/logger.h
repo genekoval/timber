@@ -9,26 +9,26 @@
 #include <string_view>
 
 #ifndef LOGGER_MAX_LEVEL
-#define LOGGER_MAX_LEVEL logger::level::DEBUG
+#define LOGGER_MAX_LEVEL nova::logger::level::DEBUG
 #endif
 
 #define LOG(lvl) \
     if (lvl > LOGGER_MAX_LEVEL) ;\
-    else if (lvl > logger::reporting_level()) ;\
-    else if (lvl <= logger::level::OFF) ;\
-    else logger::log(__FILE__, __FUNCTION__, __LINE__, lvl).stream()
+    else if (lvl > nova::logger::reporting_level()) ;\
+    else if (lvl <= nova::logger::level::OFF) ;\
+    else nova::logger::log(__FILE__, __FUNCTION__, __LINE__, lvl).stream()
 
 #define ERROR() \
-    LOG(logger::level::ERROR)
+    LOG(nova::logger::level::ERROR)
 
 #define WARN() \
-    LOG(logger::level::WARN)
+    LOG(nova::logger::level::WARN)
 
 #define INFO() \
-    LOG(logger::level::INFO)
+    LOG(nova::logger::level::INFO)
 
 #define DEBUG() \
-    LOG(logger::level::DEBUG)
+    LOG(nova::logger::level::DEBUG)
 
 namespace nova::logger {
     constexpr std::string_view DEFAULT_TIME_FORMAT = "%Y/%m/%d %T %Z";
