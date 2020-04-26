@@ -1,15 +1,14 @@
-#include <nova/logger.h>
-
-#include <nova/color.h>
+#include <logger/logger.h>
 
 #include <iostream>
+#include <termcolor/termcolor>
 #include <sstream>
 
-using nova::logger::level;
-using nova::logger::log;
-using nova::logger::write;
-using nova::ext::chrono::time_type;
-using nova::ext::chrono::timestamp;
+using logger::level;
+using logger::log;
+using logger::write;
+using ext::chrono::time_type;
+using ext::chrono::timestamp;
 using std::cerr;
 using std::endl;
 using std::ostream;
@@ -20,7 +19,7 @@ using std::stringstream;
 string log::timestamp_format = string(DEFAULT_TIME_FORMAT);
 time_type log::timestamp_type = DEFAULT_TIME_TYPE;
 
-ostream& nova::logger::operator<<(ostream& os, const level& lvl) {
+ostream& logger::operator<<(ostream& os, const level& lvl) {
     switch (lvl) {
         case level::OFF  : os << "";      break;
         case level::ERROR: os << "ERROR"; break;
@@ -62,18 +61,18 @@ stringstream& log::stream() { return message_stream; }
 
 timestamp log::time() const { return ts; }
 
-write& nova::logger::log_writer() {
+write& logger::log_writer() {
     static write instance = console_logger;
     return instance;
 }
 
-level& nova::logger::reporting_level() {
+level& logger::reporting_level() {
     static level instance(level::INFO);
     return instance;
 }
 
-void nova::logger::color_logger(const log& lg) {
-    using namespace nova::termcolor;
+void logger::color_logger(const log& lg) {
+    using namespace termcolor;
 
     color clr;
 
@@ -108,7 +107,7 @@ void nova::logger::color_logger(const log& lg) {
         << endl;
 }
 
-void nova::logger::console_logger(const log& lg) {
+void logger::console_logger(const log& lg) {
     cerr
         // Print bullet point.
         << "- "
