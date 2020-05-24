@@ -41,7 +41,7 @@ namespace logger {
         DEBUG
     };
 
-    std::ostream& operator<<(std::ostream& os, const level& lvl);
+    std::ostream& operator<<(std::ostream& os, level lvl);
 
     class log {
         std::string filename;
