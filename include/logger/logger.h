@@ -30,9 +30,8 @@
     LOG(logger::level::trace)
 
 namespace logger {
-    constexpr const char* DEFAULT_TIME_FORMAT = "%Y-%m-%d %T %Z";
-    constexpr ext::chrono::time_type DEFAULT_TIME_TYPE =
-        ext::chrono::time_type::local;
+    constexpr auto DEFAULT_TIME_FORMAT = "%Y-%m-%d %T %Z";
+    constexpr auto DEFAULT_TIME_TYPE = ext::chrono::time_type::local;
 
     enum level {
         error,
