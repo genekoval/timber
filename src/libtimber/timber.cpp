@@ -18,7 +18,17 @@ namespace timber {
     }
 
     auto parse_level(std::string_view lvl) -> std::optional<level> {
-        auto it = std::find(levels.begin(), levels.end(), lvl);
+        // Perform a case-insensitive search for the specified level.
+        auto it = std::find_if(levels.begin(), levels.end(), [lvl](
+            std::string_view current
+        ) -> bool {
+            return std::equal(
+                current.begin(), current.end(),
+                lvl.begin(), lvl.end(),
+                [](char a, char b) {
+                    return std::toupper(a) == std::toupper(b);
+                });
+        });
 
         if (it == levels.end()) return {};
 
@@ -32,7 +42,7 @@ namespace timber {
         timestamp(clock::now())
     {}
 
-    log::~log() { write(*this); }
+    log::~log() { handle_log(*this); }
 
     auto reporting_level() -> level& {
         // By default, use the finest logging level.

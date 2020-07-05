@@ -37,5 +37,5 @@ namespace timber {
 
     auto reporting_level() -> level&;
 
-    auto write(const log& lg) noexcept -> void;
+    auto handle_log(const log& lg) noexcept -> void;
 }
