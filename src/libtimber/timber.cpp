@@ -13,7 +13,7 @@ namespace timber {
     };
 
     auto operator<<(std::ostream& os, level lvl) -> std::ostream& {
-        os << levels[lvl];
+        os << levels[static_cast<int>(lvl)];
         return os;
     }
 

@@ -10,7 +10,7 @@ namespace timber {
     using clock = std::chrono::system_clock;
     using source_location = std::experimental::source_location;
 
-    enum level {
+    enum class level {
         error,
         warn,
         info,
