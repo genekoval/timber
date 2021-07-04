@@ -46,7 +46,7 @@ namespace timber {
 
     auto reporting_level() -> level& {
         // By default, use the finest logging level.
-        static auto instance = static_cast<level>(levels.size());
+        static auto instance = static_cast<level>(levels.size() - 1);
         return instance;
     }
 }
