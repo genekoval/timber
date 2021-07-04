@@ -35,7 +35,11 @@ namespace timber {
         ~log();
     };
 
-    auto reporting_level() -> level&;
+    using log_handler_t = auto (*)(const log&) noexcept -> void;
 
-    auto handle_log(const log& lg) noexcept -> void;
+    extern log_handler_t log_handler;
+
+    extern level reporting_level;
+
+    auto console_logger(const log& l) noexcept -> void;
 }

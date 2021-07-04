@@ -8,7 +8,7 @@
 
 #define LOG(level) \
     if (level > LOGGER_MAX_LEVEL) ;\
-    else if (level > timber::reporting_level()) ;\
+    else if (level > timber::reporting_level) ;\
     else timber::log(level).stream
 
 #define ERROR() \

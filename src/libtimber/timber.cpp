@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <iostream>
 
 namespace timber {
     constexpr auto levels = std::array<std::string_view, 5> {
@@ -42,11 +43,19 @@ namespace timber {
         timestamp(clock::now())
     {}
 
-    log::~log() { handle_log(*this); }
-
-    auto reporting_level() -> level& {
-        // By default, use the finest logging level.
-        static auto instance = static_cast<level>(levels.size() - 1);
-        return instance;
+    log::~log() {
+        if (!log_handler) return;
+        log_handler(*this);
     }
+
+    auto console_logger(const log& l) noexcept -> void {
+        std::cerr
+            << "[" << l.log_level << "] "
+            << l.stream.str()
+            << std::endl;
+    }
+
+    log_handler_t log_handler = nullptr;
+
+    level reporting_level = static_cast<level>(levels.size() -1);
 }
