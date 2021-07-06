@@ -1,6 +1,6 @@
 project = timber
 
-STD = c++17
+STD = c++20
 
 library = lib$(project)
 
