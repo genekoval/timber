@@ -5,9 +5,13 @@
 #include <iostream>
 
 namespace timber {
-    constexpr auto levels = std::array<std::string_view, 5> {
+    constexpr auto levels = std::array {
+        "EMERGENCY",
+        "ALERT",
+        "CRITICAL",
         "ERROR",
-        "WARN",
+        "WARNING",
+        "NOTICE",
         "INFO",
         "DEBUG",
         "TRACE"

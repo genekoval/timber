@@ -11,8 +11,12 @@ namespace timber {
     using source_location = std::experimental::source_location;
 
     enum class level {
+        emergency,
+        alert,
+        critical,
         error,
-        warn,
+        warning,
+        notice,
         info,
         debug,
         trace

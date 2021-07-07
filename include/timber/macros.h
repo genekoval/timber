@@ -11,11 +11,23 @@
     else if (level > timber::reporting_level) ;\
     else timber::log(level).stream
 
+#define EMERGENCY() \
+    LOG(timber::level::emergency)
+
+#define ALERT() \
+    LOG(timber::level::alert)
+
+#define CRITICAL() \
+    LOG(timber::level::critical)
+
 #define ERROR() \
     LOG(timber::level::error)
 
-#define WARN() \
-    LOG(timber::level::warn)
+#define WARNING() \
+    LOG(timber::level::warning)
+
+#define NOTICE() \
+    LOG(timber::level::notice)
 
 #define INFO() \
     LOG(timber::level::info)
