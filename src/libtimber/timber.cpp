@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <array>
-#include <iostream>
 
 namespace timber {
     constexpr auto levels = std::array {
@@ -16,11 +15,6 @@ namespace timber {
         "DEBUG",
         "TRACE"
     };
-
-    auto operator<<(std::ostream& os, level lvl) -> std::ostream& {
-        os << levels[static_cast<int>(lvl)];
-        return os;
-    }
 
     auto parse_level(std::string_view lvl) -> std::optional<level> {
         // Perform a case-insensitive search for the specified level.
@@ -48,15 +42,7 @@ namespace timber {
     {}
 
     log::~log() {
-        if (!log_handler) return;
         log_handler(*this);
-    }
-
-    auto console_logger(const log& l) noexcept -> void {
-        std::cerr
-            << "[" << l.log_level << "] "
-            << l.stream.str()
-            << std::endl;
     }
 
     log_handler_t log_handler = nullptr;

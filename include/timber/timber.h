@@ -2,8 +2,8 @@
 
 #include <chrono>
 #include <experimental/source_location>
+#include <fmt/format.h>
 #include <optional>
-#include <sstream>
 #include <string_view>
 
 namespace timber {
@@ -22,21 +22,25 @@ namespace timber {
         trace
     };
 
-    auto operator<<(std::ostream& os, level lvl) -> std::ostream&;
-
     auto parse_level(std::string_view lvl) -> std::optional<level>;
 
     struct log {
         const level log_level;
         const source_location location;
-        std::ostringstream stream;
+        std::string message;
         const clock::time_point timestamp;
 
         log(
             level log_level,
             const source_location& location = source_location::current()
         );
+
         ~log();
+
+        template <typename ...Args>
+        auto write(Args&&... args) -> void {
+            message = fmt::format(std::forward<Args>(args)...);
+        }
     };
 
     using log_handler_t = auto (*)(const log&) noexcept -> void;
@@ -47,3 +51,25 @@ namespace timber {
 
     auto console_logger(const log& l) noexcept -> void;
 }
+
+template <>
+struct fmt::formatter<timber::level> : formatter<std::string_view> {
+    template <typename FormatContext>
+    auto format(timber::level level, FormatContext& ctx) {
+        auto string = std::string_view();
+
+        switch (level) {
+            case timber::level::emergency: string = "emergency"; break;
+            case timber::level::alert: string = "alert"; break;
+            case timber::level::critical: string = "critical"; break;
+            case timber::level::error: string = "error"; break;
+            case timber::level::warning: string = "warning"; break;
+            case timber::level::notice: string = "notice"; break;
+            case timber::level::info: string = "info"; break;
+            case timber::level::debug: string = "debug"; break;
+            case timber::level::trace: string = "trace"; break;
+        }
+
+        return formatter<std::string_view>::format(string, ctx);
+    }
+};

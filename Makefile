@@ -8,6 +8,7 @@ install := $(library)
 targets := $(install)
 
 $(library).type = shared
+$(library).libs = fmt
 
 files = $(include) $(src) Makefile VERSION
 

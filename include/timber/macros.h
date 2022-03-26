@@ -6,34 +6,35 @@
 #define LOGGER_MAX_LEVEL timber::level::trace
 #endif
 
-#define LOG(level) \
+#define TIMBER_LOG(level, ...) \
     if (level > LOGGER_MAX_LEVEL) ;\
     else if (level > timber::reporting_level) ;\
-    else timber::log(level).stream
+    else if (!timber::log_handler) ;\
+    else timber::log(level).write(__VA_ARGS__);
 
-#define EMERGENCY() \
-    LOG(timber::level::emergency)
+#define TIMBER_EMERGENCY(...) \
+    TIMBER_LOG(timber::level::emergency, __VA_ARGS__)
 
-#define ALERT() \
-    LOG(timber::level::alert)
+#define TIMBER_ALERT(...) \
+    TIMBER_LOG(timber::level::alert, __VA_ARGS__)
 
-#define CRITICAL() \
-    LOG(timber::level::critical)
+#define TIMBER_CRITICAL(...) \
+    TIMBER_LOG(timber::level::critical, __VA_ARGS__)
 
-#define ERROR() \
-    LOG(timber::level::error)
+#define TIMBER_ERROR(...) \
+    TIMBER_LOG(timber::level::error, __VA_ARGS__)
 
-#define WARNING() \
-    LOG(timber::level::warning)
+#define TIMBER_WARNING(...) \
+    TIMBER_LOG(timber::level::warning, __VA_ARGS__)
 
-#define NOTICE() \
-    LOG(timber::level::notice)
+#define TIMBER_NOTICE(...) \
+    TIMBER_LOG(timber::level::notice, __VA_ARGS__)
 
-#define INFO() \
-    LOG(timber::level::info)
+#define TIMBER_INFO(...) \
+    TIMBER_LOG(timber::level::info, __VA_ARGS__)
 
-#define DEBUG() \
-    LOG(timber::level::debug)
+#define TIMBER_DEBUG(...) \
+    TIMBER_LOG(timber::level::debug, __VA_ARGS__)
 
-#define TRACE() \
-    LOG(timber::level::trace)
+#define TIMBER_TRACE(...) \
+    TIMBER_LOG(timber::level::trace, __VA_ARGS__)
