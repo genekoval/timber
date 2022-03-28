@@ -7,7 +7,6 @@
 #include <string_view>
 
 namespace timber {
-    using clock = std::chrono::system_clock;
     using source_location = std::experimental::source_location;
 
     enum class level {
@@ -25,6 +24,7 @@ namespace timber {
     auto parse_level(std::string_view lvl) -> std::optional<level>;
 
     struct log {
+        using clock = std::chrono::system_clock;
         const level log_level;
         const source_location location;
         std::string message;
@@ -42,6 +42,50 @@ namespace timber {
             message = fmt::format(std::forward<Args>(args)...);
         }
     };
+
+    class timer {
+        using clock = std::chrono::steady_clock;
+
+        const level log_level;
+        const source_location location;
+        const std::string identifier;
+
+        bool log_on_destruct_enabled = false;
+        bool logged = false;
+        clock::time_point start;
+
+        auto write_log() noexcept -> void;
+    public:
+        timer(
+            level log_level = level::debug,
+            const source_location& location = source_location::current()
+        );
+
+        timer(
+            std::string_view identifier,
+            level log_level = level::debug,
+            const source_location& location = source_location::current()
+        );
+
+        ~timer();
+
+        auto log_on_destruct(bool enabled) -> void;
+
+        auto reset() -> void;
+
+        auto stop() noexcept -> void;
+    };
+
+    auto auto_timer(
+        level log_level = level::debug,
+        const source_location& location = source_location::current()
+    ) -> timer;
+
+    auto auto_timer(
+        std::string_view identifier,
+        level log_level = level::debug,
+        const source_location& location = source_location::current()
+    ) -> timer;
 
     using log_handler_t = auto (*)(const log&) noexcept -> void;
 
