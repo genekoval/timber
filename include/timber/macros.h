@@ -3,14 +3,14 @@
 #include <timber/timber.h>
 
 #ifndef TIMBER_MAX_LEVEL
-#define TIMBER_MAX_LEVEL timber::level::trace
+#define TIMBER_MAX_LEVEL trace
 #endif
 
-#define TIMBER_LOG(level, ...) \
-    if (level > TIMBER_MAX_LEVEL) ;\
-    else if (level > timber::reporting_level) ;\
+#define TIMBER_LOG(lvl, ...) \
+    if (lvl > timber::level::TIMBER_MAX_LEVEL) ;\
+    else if (lvl > timber::reporting_level) ;\
     else if (!timber::log_handler) ;\
-    else timber::log(level).write(__VA_ARGS__);
+    else timber::log(lvl).write(__VA_ARGS__);
 
 #define TIMBER_EMERGENCY(...) \
     TIMBER_LOG(timber::level::emergency, __VA_ARGS__)
