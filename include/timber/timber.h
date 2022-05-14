@@ -38,8 +38,11 @@ namespace timber {
         ~log();
 
         template <typename ...Args>
-        auto write(Args&&... args) -> void {
-            message = fmt::format(std::forward<Args>(args)...);
+        auto write(std::string_view format_string, Args&&... args) -> void {
+            message = fmt::format(
+                fmt::runtime(format_string),
+                std::forward<Args>(args)...
+            );
         }
     };
 
