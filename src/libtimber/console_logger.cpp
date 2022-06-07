@@ -27,7 +27,7 @@ namespace {
 
 namespace timber {
     auto console_logger(const log& l) noexcept -> void {
-        fmt::print(stderr, timestamp_style, "{:%b %m %r}", l.timestamp);
+        fmt::print(stderr, timestamp_style, "{:%b %d %r}", l.timestamp);
         fmt::print(stderr, level_style(l.log_level), " {:9} ", l.log_level);
         fmt::print(stderr, "{}\n", l.message);
     }
