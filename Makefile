@@ -14,6 +14,8 @@ $(console).libs = $(project) fmt
 install := $(library)
 targets := $(install) $(console)
 
+install.directories = $(include)/$(project)
+
 files = $(include) $(src) Makefile VERSION
 
 include mkbuild/base.mk
