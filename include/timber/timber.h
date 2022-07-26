@@ -39,7 +39,8 @@ namespace timber {
 
         template <typename ...Args>
         auto write(std::string_view format_string, Args&&... args) -> void {
-            message = fmt::format(
+            if constexpr (sizeof...(args) == 0) message = format_string;
+            else message = fmt::format(
                 fmt::runtime(format_string),
                 std::forward<Args>(args)...
             );
