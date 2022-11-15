@@ -2,9 +2,14 @@
 
 #include <fmt/chrono.h>
 #include <fmt/color.h>
+#include <mutex>
 
 namespace {
+    constexpr auto thread_style = fmt::fg(fmt::color::forest_green);
+
     constexpr auto timestamp_style = fmt::fg(fmt::color::dim_gray);
+
+    std::mutex mutex;
 
     auto level_style(timber::level level) -> fmt::text_style {
         auto color = fmt::color::white;
@@ -27,8 +32,16 @@ namespace {
 
 namespace timber {
     auto console_logger(const log& l) noexcept -> void {
-        fmt::print(stderr, timestamp_style, "{:%b %d %r}", l.timestamp);
-        fmt::print(stderr, level_style(l.log_level), " {:9} ", l.log_level);
+        auto lock = std::scoped_lock<std::mutex>(mutex);
+
+        fmt::print(stderr, timestamp_style, "{:%b %d %r} ", l.timestamp);
+
+        fmt::print(stderr, level_style(l.log_level), "{:9} ", l.log_level);
+
+        if (!l.thread_name.empty()) {
+            fmt::print(stderr, thread_style, "{} ", l.thread_name);
+        }
+
         fmt::print(stderr, "{}\n", l.message);
     }
 }

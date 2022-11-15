@@ -6,6 +6,7 @@ namespace {
 }
 
 auto main(int argc, const char** argv) -> int {
+    timber::thread_name = "main";
     timber::log_handler = &timber::console_logger;
 
     for (auto i = 0; i <= end; ++i) {

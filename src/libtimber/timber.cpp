@@ -38,6 +38,8 @@ namespace timber {
     log::log(level log_level, const source_location& location) :
         log_level(log_level),
         location(location),
+        thread_id(std::this_thread::get_id()),
+        thread_name(timber::thread_name),
         timestamp(clock::now())
     {}
 
@@ -48,4 +50,6 @@ namespace timber {
     log_handler_t log_handler = nullptr;
 
     level reporting_level = static_cast<level>(levels.size() -1);
+
+    thread_local std::string thread_name;
 }

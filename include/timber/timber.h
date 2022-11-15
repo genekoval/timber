@@ -5,6 +5,7 @@
 #include <fmt/format.h>
 #include <optional>
 #include <string_view>
+#include <thread>
 
 namespace timber {
     using source_location = std::experimental::source_location;
@@ -21,13 +22,18 @@ namespace timber {
         trace
     };
 
+    extern thread_local std::string thread_name;
+
     auto parse_level(std::string_view lvl) -> std::optional<level>;
 
     struct log {
         using clock = std::chrono::system_clock;
+
         const level log_level;
         const source_location location;
         std::string message;
+        const std::thread::id thread_id;
+        const std::string_view thread_name;
         const clock::time_point timestamp;
 
         log(
