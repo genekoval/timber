@@ -104,6 +104,8 @@ namespace timber {
     extern level reporting_level;
 
     auto console_logger(const log& l) noexcept -> void;
+
+    auto set_terminate(level log_level) noexcept -> void;
 }
 
 template <>
