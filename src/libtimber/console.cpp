@@ -30,18 +30,22 @@ namespace {
     }
 }
 
-namespace timber {
-    auto console_logger(const log& l) noexcept -> void {
+namespace timber::console {
+    std::FILE* file = stderr;
+
+    auto logger(const log& l) noexcept -> void {
         auto lock = std::scoped_lock<std::mutex>(mutex);
 
-        fmt::print(stderr, timestamp_style, "{:%b %d %r} ", l.timestamp);
+        fmt::print(file, timestamp_style, "{:%b %d %r} ", l.timestamp);
 
-        fmt::print(stderr, level_style(l.log_level), "{:9} ", l.log_level);
+        fmt::print(file, level_style(l.log_level), "{:9} ", l.log_level);
 
         if (!l.thread_name.empty()) {
-            fmt::print(stderr, thread_style, "{} ", l.thread_name);
+            fmt::print(file, thread_style, "{} ", l.thread_name);
         }
 
-        fmt::print(stderr, "{}\n", l.message);
+        fmt::print(file, "{}\n", l.message);
+
+        fflush(file);
     }
 }

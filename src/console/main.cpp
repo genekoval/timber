@@ -5,9 +5,9 @@ namespace {
     constexpr auto end = static_cast<int>(finest_level);
 }
 
-auto main(int argc, const char** argv) -> int {
+auto main(int argc, char** argv) -> int {
     timber::thread_name = "main";
-    timber::log_handler = &timber::console_logger;
+    timber::log_handler = &timber::console::logger;
 
     for (auto i = 0; i <= end; ++i) {
         const auto level = static_cast<timber::level>(i);

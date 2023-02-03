@@ -1,3 +1,4 @@
-#pragma once
+#include "console.hpp"
+#include "macros.h"
 
-#include <timber/macros.h>
+// vim: ft=cpp
