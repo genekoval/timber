@@ -4,6 +4,8 @@
 #include <fmt/color.h>
 #include <mutex>
 
+using namespace fmt::literals;
+
 namespace {
     constexpr auto thread_style = fmt::fg(fmt::color::forest_green);
 
@@ -36,15 +38,21 @@ namespace timber::console {
     auto logger(const log& l) noexcept -> void {
         auto lock = std::scoped_lock<std::mutex>(mutex);
 
-        fmt::print(file, timestamp_style, "{:%b %d %r} ", l.timestamp);
+        fmt::print(
+            file,
 
-        fmt::print(file, level_style(l.log_level), "{:9} ", l.log_level);
+            "{timestamp:%b %d %r} {level:9}{thread:^{thread_width}}{message}\n",
 
-        if (!l.thread_name.empty()) {
-            fmt::print(file, thread_style, "{} ", l.thread_name);
-        }
+            "timestamp"_a = fmt::styled(l.timestamp, timestamp_style),
 
-        fmt::print(file, "{}\n", l.message);
+            "level"_a = fmt::styled(l.log_level, level_style(l.log_level)),
+
+            "thread"_a = fmt::styled(l.thread_name, thread_style),
+            "thread_width"_a =
+                l.thread_name.empty() ? 1 : l.thread_name.size() + 2,
+
+            "message"_a = l.message
+        );
 
         fflush(file);
     }

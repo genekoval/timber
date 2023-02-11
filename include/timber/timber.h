@@ -109,7 +109,7 @@ namespace timber {
 template <>
 struct fmt::formatter<timber::level> : formatter<std::string_view> {
     template <typename FormatContext>
-    auto format(timber::level level, FormatContext& ctx) {
+    auto format(timber::level level, FormatContext& ctx) const {
         auto string = std::string_view();
 
         switch (level) {
