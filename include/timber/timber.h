@@ -36,20 +36,19 @@ namespace timber {
         const std::string_view thread_name;
         const clock::time_point timestamp;
 
-        log(
-            level log_level,
-            const source_location& location = source_location::current()
-        );
+        log(level log_level,
+            const source_location& location = source_location::current());
 
         ~log();
 
-        template <typename ...Args>
+        template <typename... Args>
         auto write(std::string_view format_string, Args&&... args) -> void {
             if constexpr (sizeof...(args) == 0) message = format_string;
-            else message = fmt::format(
-                fmt::runtime(format_string),
-                std::forward<Args>(args)...
-            );
+            else
+                message = fmt::format(
+                    fmt::runtime(format_string),
+                    std::forward<Args>(args)...
+                );
         }
     };
 

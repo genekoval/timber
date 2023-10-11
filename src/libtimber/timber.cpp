@@ -13,21 +13,25 @@ namespace timber {
         "NOTICE",
         "INFO",
         "DEBUG",
-        "TRACE"
-    };
+        "TRACE"};
 
     auto parse_level(std::string_view lvl) -> std::optional<level> {
         // Perform a case-insensitive search for the specified level.
-        auto it = std::find_if(levels.begin(), levels.end(), [lvl](
-            std::string_view current
-        ) -> bool {
-            return std::equal(
-                current.begin(), current.end(),
-                lvl.begin(), lvl.end(),
-                [](char a, char b) {
-                    return std::toupper(a) == std::toupper(b);
-                });
-        });
+        auto it = std::find_if(
+            levels.begin(),
+            levels.end(),
+            [lvl](std::string_view current) -> bool {
+                return std::equal(
+                    current.begin(),
+                    current.end(),
+                    lvl.begin(),
+                    lvl.end(),
+                    [](char a, char b) {
+                        return std::toupper(a) == std::toupper(b);
+                    }
+                );
+            }
+        );
 
         if (it == levels.end()) return {};
 
@@ -40,16 +44,13 @@ namespace timber {
         location(location),
         thread_id(std::this_thread::get_id()),
         thread_name(timber::thread_name),
-        timestamp(clock::now())
-    {}
+        timestamp(clock::now()) {}
 
-    log::~log() {
-        log_handler(*this);
-    }
+    log::~log() { log_handler(*this); }
 
     log_handler_t log_handler = nullptr;
 
-    level reporting_level = static_cast<level>(levels.size() -1);
+    level reporting_level = static_cast<level>(levels.size() - 1);
 
     thread_local std::string thread_name;
 }

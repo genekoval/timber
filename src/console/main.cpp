@@ -4,9 +4,7 @@ namespace {
     constexpr auto finest_level = timber::level::trace;
     constexpr auto end = static_cast<int>(finest_level);
 
-    auto newline() -> void {
-        fmt::print("\n");
-    }
+    auto newline() -> void { fmt::print("\n"); }
 
     auto print_logs() -> void {
         for (auto i = 0; i <= end; ++i) {

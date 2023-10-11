@@ -46,8 +46,7 @@ namespace timber {
         log_level(log_level),
         location(location),
         identifier(fmt::format("{} took", location.function_name())),
-        start(clock::now())
-    {}
+        start(clock::now()) {}
 
     timer::timer(
         std::string_view identifier,
@@ -57,8 +56,7 @@ namespace timber {
         log_level(log_level),
         location(location),
         identifier(identifier),
-        start(clock::now())
-    {}
+        start(clock::now()) {}
 
     timer::~timer() {
         if (log_on_destruct_enabled) stop();
@@ -68,9 +66,7 @@ namespace timber {
         log_on_destruct_enabled = enabled;
     }
 
-    auto timer::reset() -> void {
-        start = clock::now();
-    }
+    auto timer::reset() -> void { start = clock::now(); }
 
     auto timer::stop() noexcept -> void {
         if (logged) return;
@@ -84,17 +80,11 @@ namespace timber {
 
         const auto duration = clock::now() - start;
 
-        log(log_level, location).write(
-            "{} {}",
-            identifier,
-            format_duration(duration)
-        );
+        log(log_level, location)
+            .write("{} {}", identifier, format_duration(duration));
     }
 
-    auto auto_timer(
-        level log_level,
-        const source_location& location
-    ) -> timer {
+    auto auto_timer(level log_level, const source_location& location) -> timer {
         auto result = timer(log_level, location);
         result.log_on_destruct(true);
         return result;

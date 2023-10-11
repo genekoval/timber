@@ -8,14 +8,10 @@ namespace {
 
         auto demangling_error(int status) -> std::string_view {
             switch (status) {
-                case -1:
-                    return "memory allocation failure";
-                case -2:
-                    return "name not valid under C++ ABI mangling rules";
-                case -3:
-                    return "invalid argument to demangling function";
-                default:
-                    return "unknown";
+                case -1: return "memory allocation failure";
+                case -2: return "name not valid under C++ ABI mangling rules";
+                case -3: return "invalid argument to demangling function";
+                default: return "unknown";
             }
         }
 
@@ -23,12 +19,8 @@ namespace {
             const auto name = typeid(ex).name();
 
             auto status = 0;
-            auto* realname = abi::__cxa_demangle(
-                name,
-                nullptr,
-                nullptr,
-                &status
-            );
+            auto* realname =
+                abi::__cxa_demangle(name, nullptr, nullptr, &status);
 
             if (status == 0) {
                 TIMBER_LOG(
